@@ -1,0 +1,13 @@
+name: Dualist
+version: ${project.version}
+main: verrok.dualist.Dualist
+authors: [Verrok]
+description: Plugin for duels between players with reward
+commands:
+  duel:
+    description: starts
+    permission: duel.help
+    usage: /duel help
+      /duel <nick> <bet>
+      /duel accept
+      /duel decline

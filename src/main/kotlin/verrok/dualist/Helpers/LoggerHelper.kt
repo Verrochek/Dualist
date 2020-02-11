@@ -25,10 +25,23 @@ class Messages {
 }
 
 
+fun String.mcformat() : String {
+    return mcformat(true)
+}
+
+fun String.mcformat(prefix: Boolean) : String {
+    var message: String = ""
+    if (prefix) {
+        message = "${Messages["prefix"]} $this"
+    } else {
+        message = this
+    }
+    return ChatColor.translateAlternateColorCodes('&', message)
+
+}
 
 fun Logger.log(msg: String) {
-    val message = "${Messages["prefix"]} $msg"
-    Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', message))
+    Bukkit.getConsoleSender().sendMessage(msg.mcformat())
 }
 
 fun Logger.log(msg: String, vararg args: String) {
@@ -37,5 +50,5 @@ fun Logger.log(msg: String, vararg args: String) {
         msg.replaceFirst("{}", it);
     }
 
-    Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', msg))
+    Bukkit.getConsoleSender().sendMessage(msg.mcformat())
 }

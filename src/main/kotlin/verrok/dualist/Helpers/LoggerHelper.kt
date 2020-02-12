@@ -4,6 +4,7 @@ import org.bukkit.Bukkit
 import org.bukkit.ChatColor
 import org.bukkit.configuration.file.FileConfiguration
 import org.bukkit.configuration.file.YamlConfiguration
+import verrok.dualist.Dualist
 import java.io.InputStreamReader
 import java.util.logging.Logger
 
@@ -40,14 +41,17 @@ fun String.mcformat(prefix: Boolean) : String {
 }
 
 fun Logger.log(msg: String) {
-    Bukkit.getConsoleSender().sendMessage(msg.mcformat(true))
+    if (Dualist.verbose) {
+        Bukkit.getConsoleSender().sendMessage(msg.mcformat(true))
+    }
 }
 
 fun Logger.log(msg: String, vararg args: String) {
+    if (Dualist.verbose) {
+        args.forEach {
+            msg.replaceFirst("{}", it);
+        }
 
-    args.forEach {
-        msg.replaceFirst("{}", it);
+        Bukkit.getConsoleSender().sendMessage(msg.mcformat(true))
     }
-
-    Bukkit.getConsoleSender().sendMessage(msg.mcformat(true))
 }

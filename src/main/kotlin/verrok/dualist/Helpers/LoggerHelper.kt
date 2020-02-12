@@ -15,33 +15,32 @@ class Messages {
         var msgCfg: FileConfiguration? = null
 
         fun initConfiguration(path: String) {
-            msgCfg = YamlConfiguration.loadConfiguration(InputStreamReader(object {}.javaClass.classLoader.getResourceAsStream(path)!!));
+            msgCfg = YamlConfiguration.loadConfiguration(InputStreamReader(object {}.javaClass.classLoader.getResourceAsStream(path)!!, Charsets.UTF_8));
         }
 
         operator fun get(key: String) : String {
-            return msgCfg!!.getString(key)
+            return msgCfg!!.getString(key).mcformat()
         }
     }
 }
 
 
 fun String.mcformat() : String {
-    return mcformat(true)
+    return mcformat(false)
 }
 
 fun String.mcformat(prefix: Boolean) : String {
-    var message: String = ""
-    if (prefix) {
-        message = "${Messages["prefix"]} $this"
+    val message: String = if (prefix) {
+        "${Messages["prefix"]} $this"
     } else {
-        message = this
+        this
     }
-    return ChatColor.translateAlternateColorCodes('&', message)
+    return message.replace("&", "§")
 
 }
 
 fun Logger.log(msg: String) {
-    Bukkit.getConsoleSender().sendMessage(msg.mcformat())
+    Bukkit.getConsoleSender().sendMessage(msg.mcformat(true))
 }
 
 fun Logger.log(msg: String, vararg args: String) {
@@ -50,5 +49,5 @@ fun Logger.log(msg: String, vararg args: String) {
         msg.replaceFirst("{}", it);
     }
 
-    Bukkit.getConsoleSender().sendMessage(msg.mcformat())
+    Bukkit.getConsoleSender().sendMessage(msg.mcformat(true))
 }

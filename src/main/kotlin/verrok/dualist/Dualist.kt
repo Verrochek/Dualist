@@ -23,7 +23,7 @@ class Dualist : JavaPlugin() {
         logger.log(Messages["enable"])
 
         Bukkit.getServer().pluginManager.registerEvents(DualistEventHandler(), this);
-        getCommand("duel")!!.executor = DualistCommandHandler(logger)
+        getCommand("duel")!!.executor = DualistCommandHandler(logger, config)
         getCommand("duel")!!.tabCompleter = DualistTabCompleter()
     }
 

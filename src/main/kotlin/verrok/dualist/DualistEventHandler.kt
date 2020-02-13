@@ -6,6 +6,7 @@ import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.entity.EntityDamageByEntityEvent
+import org.bukkit.event.entity.PlayerDeathEvent
 import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.event.player.PlayerQuitEvent
 import org.bukkit.plugin.java.JavaPlugin
@@ -20,14 +21,30 @@ class DualistEventHandler(val plugin: JavaPlugin, val logger: Logger, val config
 
     @EventHandler
     fun onDamagePlayer(e: EntityDamageByEntityEvent) {
-        if (e.damager is Player && e.entity is Player) {
-            val name = e.damager.name
-            val targetName = e.entity.name
+
+        val sender = e.damager
+        val receiver = e.entity
+
+        if (sender is Player && receiver is Player) {
+            val name = sender.name
+            val targetName = receiver.name
             if (Dualist.isInDuel(targetName)) {
                 if (!Dualist.isInDuelWith(targetName, name)) {
                     e.isCancelled = true
                     return
                 }
+
+            }
+        }
+    }
+
+    @EventHandler
+    fun onPlayerDeath(e: PlayerDeathEvent) {
+        val entity = e.entity
+        if (entity is Player && entity.killer is Player) {
+            if (Dualist.isInDuel(entity.name)) {
+                e.keepInventory = config.getBoolean("deathKeepInventory")
+                e.keepLevel = config.getBoolean("deathKeepLevel")
             }
         }
     }

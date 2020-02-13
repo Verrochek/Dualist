@@ -10,6 +10,7 @@ import org.bukkit.plugin.java.JavaPlugin
 import org.bukkit.scheduler.BukkitRunnable
 import verrok.dualist.Helpers.Messages
 import verrok.dualist.Helpers.log
+import verrok.dualist.Helpers.mcformat
 import verrok.dualist.Helpers.sendMessage
 import java.util.logging.Logger
 
@@ -74,8 +75,8 @@ class DualistCommandHandler(val plugin: JavaPlugin, val logger: Logger, val conf
                                         target.sendTitle(Messages["willStart"], "", 5, 20, 5)
                                         sender.sendTitle(Messages["willStart"], "", 5, 20, 5)
                                     } else {
-                                        target.sendTitle("&a$count", "", 5, 20, 5)
-                                        sender.sendTitle("&a$count", "", 5, 20, 5)
+                                        target.sendTitle("&a$count".mcformat(), "", 5, 20, 5)
+                                        sender.sendTitle("&a$count".mcformat(), "", 5, 20, 5)
                                     }
                                 } else {
                                     target.sendTitle(Messages["started"], "", 5, 20, 5)

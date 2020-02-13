@@ -1,5 +1,6 @@
 package verrok.dualist
 
+import com.sun.org.apache.xpath.internal.operations.Bool
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor
 import org.bukkit.plugin.java.JavaPlugin
@@ -23,6 +24,13 @@ class Dualist : JavaPlugin() {
             return duelList[name] == name2 || duelList[name2] == name
         }
 
+        fun isInitiator(name: String) : Boolean {
+            return duelList.contains(name)
+        }
+
+        fun isParticipant(name: String) : Boolean {
+            return duelList.containsValue(name)
+        }
     }
 
     override fun onEnable() {

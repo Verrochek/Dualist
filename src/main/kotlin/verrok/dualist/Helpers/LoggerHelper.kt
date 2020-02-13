@@ -47,22 +47,22 @@ fun Logger.log(msg: String) {
     }
 }
 
-fun Logger.log(msg: String, vararg args: String) {
+fun Logger.log(msg: String, vararg args: Any) {
     var newmsg = msg;
 
     if (Dualist.verbose) {
         args.forEach {
-            newmsg = newmsg.replaceFirst("{}", it);
+            newmsg = newmsg.replaceFirst("{}", it.toString());
         }
 
         Bukkit.getConsoleSender().sendMessage(newmsg.mcformat(true))
     }
 }
 
-fun Player.sendMessage(msg: String, vararg args: String) {
+fun Player.sendMessage(msg: String, vararg args: Any) {
     var newmsg = msg;
     args.forEach {
-        newmsg = newmsg.replaceFirst("{}", it);
+        newmsg = newmsg.replaceFirst("{}", it.toString());
     }
     this.sendMessage(newmsg.mcformat(false))
 

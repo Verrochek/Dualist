@@ -7,7 +7,6 @@ import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import verrok.dualist.Helpers.Messages
 import verrok.dualist.Helpers.log
-import verrok.dualist.Helpers.mcformat
 import verrok.dualist.Helpers.sendMessage
 import java.util.logging.Logger
 
@@ -39,7 +38,7 @@ class DualistCommandHandler(val logger: Logger) : CommandExecutor {
                         return true;
                     }
 
-                    sender.sendMessage(Messages["newDuel"], targetPlayer.displayName)
+                    sender.sendMessage(Messages["newDuel"], targetPlayer.displayName, bet.toString())
 
 
                 } else if (args[0] == "accept") {

@@ -31,6 +31,14 @@ fun String.mcformat() : String {
     return mcformat(false)
 }
 
+fun String.mcformat(vararg args: Any) : String {
+    var newmsg: String = this
+    args.forEach {
+        newmsg = newmsg.replaceFirst("{}", it.toString());
+    }
+    return newmsg
+}
+
 fun String.mcformat(prefix: Boolean) : String {
     val message: String = if (prefix) {
         "${Messages["prefix"]} $this"

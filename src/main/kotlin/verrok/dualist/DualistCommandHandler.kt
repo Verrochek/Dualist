@@ -56,7 +56,8 @@ class DualistCommandHandler(val plugin: JavaPlugin, val logger: Logger, val conf
 
                         sender.sendMessage(Messages["waitForAnswer"], targetName)
                         targetPlayer.sendMessage(Messages["newDuel"], name, bet.toString())
-                        Dualist.duelInvitations[targetName] = name;
+                        Dualist.duelBets[targetName] = bet
+                        Dualist.duelInvitations[targetName] = name
 
                     }
                     args[0] == "accept" -> {
@@ -101,6 +102,7 @@ class DualistCommandHandler(val plugin: JavaPlugin, val logger: Logger, val conf
                             target.sendMessage(Messages["declinedDuel"], name)
                             sender.sendMessage(Messages["youDeclinedDuel"])
 
+                            Dualist.duelBets.remove(name)
                             Dualist.duelInvitations.remove(name)
                         } else {
                             sender.sendMessage(Messages["noDuels"])

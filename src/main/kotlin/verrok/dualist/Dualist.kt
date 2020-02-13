@@ -14,6 +14,7 @@ class Dualist : JavaPlugin() {
         var verbose = true
         val duelInvitations: MutableMap<String, String> = mutableMapOf()
         val duelList: MutableMap<String, String> = mutableMapOf()
+        val duelBets: MutableMap<String, Int> = mutableMapOf()
         val countdown: MutableMap<String, Int> = mutableMapOf()
 
         fun isInDuel(name: String) : Boolean {
@@ -31,6 +32,22 @@ class Dualist : JavaPlugin() {
         fun isParticipant(name: String) : Boolean {
             return duelList.containsValue(name)
         }
+
+        fun getBet(name: String) : Int {
+            if (isInitiator(name)) {
+                if (duelBets[name] != null)
+                    return duelBets[name]!!
+            }
+            if (isParticipant(name)) {
+                duelList.keys.forEach lit@{
+                    if (duelList[it] == name) {
+                        return duelBets[it]!!
+                    }
+                }
+            }
+            return 0;
+        }
+
     }
 
     override fun onEnable() {

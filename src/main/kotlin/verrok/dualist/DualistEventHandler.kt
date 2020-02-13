@@ -38,13 +38,13 @@ class DualistEventHandler(val plugin: JavaPlugin, val logger: Logger, val config
         if (Dualist.isInDuel(name)) {
             if (Dualist.isInitiator(name)) {
                 val player = Bukkit.getPlayer(Dualist.duelList[name]!!)
-                player.sendTitle(Messages["playerQuit"],Messages["playerQuitSub"], 5, 30, 5)
+                player.sendTitle(Messages["playerQuit"],Messages["playerQuitSub"].mcformat(Dualist.getBet(name)), 5, 30, 5)
                 Dualist.duelList.remove(name)
             } else if (Dualist.isParticipant(name)) {
                 Dualist.duelList.keys.forEach lit@{
                     if (Dualist.duelList[it] == name) {
                         val player = Bukkit.getPlayer(it)
-                        player.sendTitle(Messages["playerQuit"],Messages["playerQuitSub"], 5, 30, 5)
+                        player.sendTitle(Messages["playerQuit"],Messages["playerQuitSub"].mcformat(Dualist.getBet(name)), 5, 30, 5)
                         Dualist.duelList.remove(it, name)
                         return@lit;
                     }

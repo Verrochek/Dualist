@@ -11,6 +11,8 @@ class Dualist : JavaPlugin() {
 
     companion object {
         var verbose = true
+        val duelInvitations: MutableMap<String, String> = mutableMapOf()
+        val duelList: MutableMap<String, String> = mutableMapOf()
     }
 
     override fun onEnable() {

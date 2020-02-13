@@ -19,6 +19,10 @@ class Dualist : JavaPlugin() {
             return duelList.contains(name) || duelList.containsValue(name)
         }
 
+        fun isInDuelWith(name: String, name2: String) : Boolean {
+            return duelList[name] == name2 || duelList[name2] == name
+        }
+
     }
 
     override fun onEnable() {

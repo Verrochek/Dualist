@@ -36,7 +36,7 @@ class DualistCommandHandler(val plugin: JavaPlugin, val logger: Logger, val conf
 
                         val targetName = targetPlayer.name;
 
-                        if (Dualist.duelList.contains(targetName) || Dualist.duelList.containsValue(targetName)) {
+                        if (Dualist.isInDuel(targetName)) {
                             sender.sendMessage(Messages["haveDuel"], targetName)
                             return true
                         }
@@ -50,11 +50,6 @@ class DualistCommandHandler(val plugin: JavaPlugin, val logger: Logger, val conf
 
                         if (bet == null) {
                             sender.sendMessage(Messages["betType"])
-                            return true
-                        }
-
-                        if (Dualist.duelList.contains(targetName) || Dualist.duelList.containsValue(targetName)) {
-                            sender.sendMessage(Messages["alreadyInDuel"])
                             return true
                         }
 
@@ -79,12 +74,16 @@ class DualistCommandHandler(val plugin: JavaPlugin, val logger: Logger, val conf
                                         target.sendTitle(Messages["willStart"], "", 5, 20, 5)
                                         sender.sendTitle(Messages["willStart"], "", 5, 20, 5)
                                     } else {
-                                        target.sendTitle(count.toString(), "", 5, 20, 5)
-                                        sender.sendTitle(count.toString(), "", 5, 20, 5)
+                                        target.sendTitle("&a$count", "", 5, 20, 5)
+                                        sender.sendTitle("&a$count", "", 5, 20, 5)
                                     }
                                 } else {
+                                    target.sendTitle(Messages["started"], "", 5, 20, 5)
+                                    sender.sendTitle(Messages["started"], "", 5, 20, 5)
                                     Bukkit.getScheduler().cancelTask(Dualist.countdown[target.name]!!)
                                     Bukkit.getScheduler().cancelTask(Dualist.countdown[name]!!)
+                                    Dualist.countdown.remove(target.name)
+                                    Dualist.countdown.remove(name)
                                     logger.log("&eLeft tasks")
                                 }
                                 count--

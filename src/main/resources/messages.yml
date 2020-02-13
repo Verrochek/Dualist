@@ -11,3 +11,5 @@ acceptedDuel: "&b&l{} &aпринял вызов!\nДуэль начнется ч
 youAcceptedDuel: "&aВы приняли вызов!\nДуэль начнется через {} секунд"
 declinedDuel: "&b&l{} &cотказался от дуэли!"
 youDeclinedDuel: "&cВы отказались от дуэли!"
+haveDuel: "&b&l{} &cуже в дуэли!"
+willStart: "&eДуэль начнется через"

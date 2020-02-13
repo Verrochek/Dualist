@@ -13,6 +13,7 @@ class Dualist : JavaPlugin() {
         var verbose = true
         val duelInvitations: MutableMap<String, String> = mutableMapOf()
         val duelList: MutableMap<String, String> = mutableMapOf()
+        val countdown: MutableMap<String, Int> = mutableMapOf()
     }
 
     override fun onEnable() {
@@ -23,7 +24,7 @@ class Dualist : JavaPlugin() {
         logger.log(Messages["enable"])
 
         Bukkit.getServer().pluginManager.registerEvents(DualistEventHandler(), this);
-        getCommand("duel")!!.executor = DualistCommandHandler(logger, config)
+        getCommand("duel")!!.executor = DualistCommandHandler(this, logger, config)
         getCommand("duel")!!.tabCompleter = DualistTabCompleter()
     }
 

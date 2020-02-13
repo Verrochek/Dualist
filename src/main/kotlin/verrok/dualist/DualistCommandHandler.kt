@@ -6,12 +6,14 @@ import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
 import org.bukkit.configuration.file.FileConfiguration
 import org.bukkit.entity.Player
+import org.bukkit.plugin.java.JavaPlugin
+import org.bukkit.scheduler.BukkitRunnable
 import verrok.dualist.Helpers.Messages
 import verrok.dualist.Helpers.log
 import verrok.dualist.Helpers.sendMessage
 import java.util.logging.Logger
 
-class DualistCommandHandler(val logger: Logger, val config: FileConfiguration) : CommandExecutor {
+class DualistCommandHandler(val plugin: JavaPlugin, val logger: Logger, val config: FileConfiguration) : CommandExecutor {
 
     override fun onCommand(sender: CommandSender?, command: Command?, label: String?, args: Array<out String>?): Boolean {
         if (sender is Player) {
@@ -27,12 +29,17 @@ class DualistCommandHandler(val logger: Logger, val config: FileConfiguration) :
                     return true;
                 }
 
-                var targetPlayer = Bukkit.getPlayer(args[0])
+                val targetPlayer = Bukkit.getPlayer(args[0])
 
                 when {
                     targetPlayer != null -> {
 
                         val targetName = targetPlayer.name;
+
+                        if (Dualist.duelList.contains(targetName) || Dualist.duelList.containsValue(targetName)) {
+                            sender.sendMessage(Messages["haveDuel"], targetName)
+                            return true
+                        }
 
                         if (args.size < 2) {
                             sender.sendMessage(Messages["noBet"])
@@ -58,12 +65,31 @@ class DualistCommandHandler(val logger: Logger, val config: FileConfiguration) :
                     }
                     args[0] == "accept" -> {
                         if (Dualist.duelInvitations.contains(name)) {
-                            targetPlayer = Bukkit.getPlayer(Dualist.duelInvitations[name])
-                            targetPlayer.sendMessage(Messages["acceptedDuel"], name, config.getInt("startDelay"))
+                            val target = Bukkit.getPlayer(Dualist.duelInvitations[name])
+                            target.sendMessage(Messages["acceptedDuel"], name, config.getInt("startDelay"))
                             sender.sendMessage(Messages["youAcceptedDuel"], config.getInt("startDelay"))
+
+                            Dualist.duelList[name] = target.name
                             Dualist.duelInvitations.remove(name)
+                            var count = config.getInt("startDelay")
 
-
+                            Dualist.countdown[name] = Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, Runnable(){
+                                if (count > 0) {
+                                    if (count == config.getInt("startDelay")) {
+                                        target.sendTitle(Messages["willStart"], "", 5, 20, 5)
+                                        sender.sendTitle(Messages["willStart"], "", 5, 20, 5)
+                                    } else {
+                                        target.sendTitle(count.toString(), "", 5, 20, 5)
+                                        sender.sendTitle(count.toString(), "", 5, 20, 5)
+                                    }
+                                } else {
+                                    Bukkit.getScheduler().cancelTask(Dualist.countdown[target.name]!!)
+                                    Bukkit.getScheduler().cancelTask(Dualist.countdown[name]!!)
+                                    logger.log("&eLeft tasks")
+                                }
+                                count--
+                            } , 0, 30)
+                            Dualist.countdown[target.name] = Dualist.countdown[name]!!
                         } else {
                             sender.sendMessage(Messages["noDuels"])
                         }
@@ -71,8 +97,8 @@ class DualistCommandHandler(val logger: Logger, val config: FileConfiguration) :
                     args[0] == "decline" -> {
                         logger.log("Player &b{} &fdeclined duel", name)
                         if (Dualist.duelInvitations.contains(name)) {
-                            targetPlayer = Bukkit.getPlayer(Dualist.duelInvitations[name])
-                            targetPlayer.sendMessage(Messages["declinedDuel"], name)
+                            val target = Bukkit.getPlayer(Dualist.duelInvitations[name])
+                            target.sendMessage(Messages["declinedDuel"], name)
                             sender.sendMessage(Messages["youDeclinedDuel"])
 
                             Dualist.duelInvitations.remove(name)

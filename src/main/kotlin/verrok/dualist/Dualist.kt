@@ -10,17 +10,16 @@ import verrok.dualist.Helpers.log
 class Dualist : JavaPlugin() {
 
     companion object {
-        var verbose = false
+        var verbose = true
     }
 
     override fun onEnable() {
-
         saveDefaultConfig()
-
         verbose = config.getBoolean("verbose")
-        logger.log(verbose.toString())
+
         Messages.initConfiguration("messages.yml");
         logger.log(Messages["enable"])
+
         Bukkit.getServer().pluginManager.registerEvents(DualistEventHandler(), this);
         getCommand("duel")!!.executor = DualistCommandHandler(logger)
         getCommand("duel")!!.tabCompleter = DualistTabCompleter()

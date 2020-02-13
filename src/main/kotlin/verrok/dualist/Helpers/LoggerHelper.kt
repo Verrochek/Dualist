@@ -47,11 +47,13 @@ fun Logger.log(msg: String) {
 }
 
 fun Logger.log(msg: String, vararg args: String) {
+    var newmsg = msg;
+
     if (Dualist.verbose) {
         args.forEach {
-            msg.replaceFirst("{}", it);
+            newmsg = newmsg.replaceFirst("{}", it);
         }
 
-        Bukkit.getConsoleSender().sendMessage(msg.mcformat(true))
+        Bukkit.getConsoleSender().sendMessage(newmsg.mcformat(true))
     }
 }

@@ -1,3 +1,3 @@
-prefix: "&7[&aDualist&7]"
-enable: "&6&lDualist enabled"
-noArgs: "&aНеправильное количество аргументов\n/duel <nick|accept|decline>"
+prefix: "&f[&6Dualist&f]"
+enable: "&aDualist enabled"
+help: "&a/duel <ник> <ставка> - вызвать игрока на дуэль\n/duel accept - принять вызов\n/duel decline - отклонить вызов"

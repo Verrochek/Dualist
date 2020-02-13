@@ -14,6 +14,11 @@ class Dualist : JavaPlugin() {
         val duelInvitations: MutableMap<String, String> = mutableMapOf()
         val duelList: MutableMap<String, String> = mutableMapOf()
         val countdown: MutableMap<String, Int> = mutableMapOf()
+
+        fun isInDuel(name: String) : Boolean {
+            return duelList.contains(name) || duelList.containsValue(name)
+        }
+
     }
 
     override fun onEnable() {
@@ -23,7 +28,7 @@ class Dualist : JavaPlugin() {
         Messages.initConfiguration("messages.yml");
         logger.log(Messages["enable"])
 
-        Bukkit.getServer().pluginManager.registerEvents(DualistEventHandler(), this);
+        Bukkit.getServer().pluginManager.registerEvents(DualistEventHandler(this, logger, config), this);
         getCommand("duel")!!.executor = DualistCommandHandler(this, logger, config)
         getCommand("duel")!!.tabCompleter = DualistTabCompleter()
     }

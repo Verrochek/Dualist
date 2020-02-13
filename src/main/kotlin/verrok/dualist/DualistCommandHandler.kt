@@ -8,6 +8,7 @@ import org.bukkit.entity.Player
 import verrok.dualist.Helpers.Messages
 import verrok.dualist.Helpers.log
 import verrok.dualist.Helpers.mcformat
+import verrok.dualist.Helpers.sendMessage
 import java.util.logging.Logger
 
 class DualistCommandHandler(val logger: Logger) : CommandExecutor {
@@ -26,11 +27,25 @@ class DualistCommandHandler(val logger: Logger) : CommandExecutor {
                 val targetPlayer = Bukkit.getPlayer(args[0])
 
                 if (targetPlayer != null) {
-                    logger.log("Found player {}", sender.displayName)
+                    if (args.size < 2) {
+                        sender.sendMessage(Messages["noBet"])
+                        return true;
+                    }
+
+                    val bet = args[1].toIntOrNull()
+
+                    if (bet == null) {
+                        sender.sendMessage(Messages["betType"])
+                        return true;
+                    }
+
+                    sender.sendMessage(Messages["newDuel"], targetPlayer.displayName)
+
+
                 } else if (args[0] == "accept") {
-                    logger.log("Player {} accepted duel", sender.displayName)
+                    logger.log("Player &b{} &faccepted duel", sender.displayName)
                 } else if (args[0] == "decline") {
-                    logger.log("Player {} declined duel", sender.displayName)
+                    logger.log("Player &b{} &fdeclined duel", sender.displayName)
 
                 }
             }

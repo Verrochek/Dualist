@@ -9,34 +9,35 @@ import org.bukkit.entity.Player
 import org.bukkit.plugin.java.JavaPlugin
 import verrok.dualist.Helpers.Messages
 import verrok.dualist.Helpers.log
+import java.util.*
 
 
 class Dualist : JavaPlugin() {
 
     companion object {
         var verbose = true
-        val duelInvitations: MutableMap<String, String> = mutableMapOf()
-        val duelList: MutableMap<String, String> = mutableMapOf()
-        val duelBets: MutableMap<String, Int> = mutableMapOf()
-        val countdown: MutableMap<String, Int> = mutableMapOf()
+        val duelInvitations: MutableMap<UUID, UUID> = mutableMapOf()
+        val duelList: MutableMap<UUID, UUID> = mutableMapOf()
+        val duelBets: MutableMap<UUID, Int> = mutableMapOf()
+        val countdown: MutableMap<UUID, Int> = mutableMapOf()
 
-        fun isInDuel(name: String) : Boolean {
+        fun isInDuel(name: UUID) : Boolean {
             return duelList.contains(name) || duelList.containsValue(name)
         }
 
-        fun isInDuelWith(name: String, name2: String) : Boolean {
+        fun isInDuelWith(name: UUID, name2: UUID) : Boolean {
             return duelList[name] == name2 || duelList[name2] == name
         }
 
-        fun isInitiator(name: String) : Boolean {
+        fun isInitiator(name: UUID) : Boolean {
             return duelList.contains(name)
         }
 
-        fun isParticipant(name: String) : Boolean {
+        fun isParticipant(name: UUID) : Boolean {
             return duelList.containsValue(name)
         }
 
-        fun getBet(name: String) : Int {
+        fun getBet(name: UUID) : Int {
             if (isInitiator(name)) {
                 if (duelBets[name] != null)
                     return duelBets[name]!!
@@ -53,9 +54,6 @@ class Dualist : JavaPlugin() {
 
         var econ: Economy? = null
     }
-
-
-
 
     override fun onEnable() {
         saveDefaultConfig()

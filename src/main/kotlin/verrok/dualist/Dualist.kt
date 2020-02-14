@@ -1,8 +1,11 @@
 package verrok.dualist
 
-import com.sun.org.apache.xpath.internal.operations.Bool
+import net.milkbowl.vault.economy.Economy
 import org.bukkit.Bukkit
-import org.bukkit.ChatColor
+import org.bukkit.OfflinePlayer
+import org.bukkit.command.Command
+import org.bukkit.command.CommandSender
+import org.bukkit.entity.Player
 import org.bukkit.plugin.java.JavaPlugin
 import verrok.dualist.Helpers.Messages
 import verrok.dualist.Helpers.log
@@ -48,7 +51,11 @@ class Dualist : JavaPlugin() {
             return 0;
         }
 
+        var econ: Economy? = null
     }
+
+
+
 
     override fun onEnable() {
         saveDefaultConfig()
@@ -56,6 +63,8 @@ class Dualist : JavaPlugin() {
 
         Messages.initConfiguration("messages.yml");
         logger.log(Messages["enable"])
+
+        setupEconomy()
 
         Bukkit.getServer().pluginManager.registerEvents(DualistEventHandler(this, logger, config), this);
         getCommand("duel")!!.executor = DualistCommandHandler(this, logger, config)
@@ -65,4 +74,17 @@ class Dualist : JavaPlugin() {
     override fun onDisable() {
 
     }
+
+    private fun setupEconomy(): Boolean {
+        if (server.pluginManager.getPlugin("Vault") == null) {
+            return false
+        }
+        val rsp = server.servicesManager.getRegistration(Economy::class.java) ?: return false
+        econ = rsp.provider
+        return econ != null
+    }
+
+
+
+
 }

@@ -36,6 +36,7 @@ In `config.yml` you can find different settings for plugin
 
 ### Todo list
 - [x] ~~Language support~~
+- [ ] Permissions (don't know exactly why)
 - [ ] Creating arenas (optional WorldGuard integration)
 - [ ] Item bets
 - [ ] Make plugin more flexible via config

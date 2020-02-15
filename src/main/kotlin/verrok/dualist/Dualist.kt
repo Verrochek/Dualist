@@ -60,9 +60,15 @@ class Dualist : JavaPlugin() {
         verbose = config.getBoolean("verbose")
 
         Messages.initConfiguration("messages.yml")
+
+        if (!setupEconomy() ) {
+            logger.log("Disabled due to no Vault dependency found!");
+            server.pluginManager.disablePlugin(this);
+            return;
+        }
         logger.log(Messages["enable"])
 
-        setupEconomy()
+
 
         Bukkit.getServer().pluginManager.registerEvents(DualistEventHandler(this, logger, config), this)
         getCommand("duel")!!.executor = DualistCommandHandler(this, logger, config)

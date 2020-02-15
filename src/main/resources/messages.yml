@@ -1,5 +1,6 @@
 prefix: "&f[&6Dualist&f]"
-enable: "&aDualist enabled"
+enable: "&aDualist включен"
+noDependency: "&4Плагин не может быть загружен, так как не найден Vault"
 help: "&a/duel <ник> <ставка> - вызвать игрока на дуэль\n/duel accept - принять вызов\n/duel decline - отклонить вызов"
 noBet: "&cНужно указать ставку"
 betType: "&cСтавка должна быть числом!"

@@ -47,6 +47,12 @@ class DualistEventHandler(val plugin: JavaPlugin, val logger: Logger, val config
         if (entity is Player && entity.killer is Player) {
             val name = entity.uniqueId
             if (Dualist.isInDuel(entity.uniqueId)) {
+
+                if (Dualist.isWaiting(name)) {
+                    Bukkit.getScheduler().cancelTask(Dualist.countdown[name]!!)
+                    Bukkit.getScheduler().cancelTask(Dualist.countdown[Dualist.getAnotherPlayer(name)!!]!!)
+                }
+
                 val bet = Dualist.getBet(name)
                 Dualist.deathScreen[name] = bet
 
@@ -75,7 +81,7 @@ class DualistEventHandler(val plugin: JavaPlugin, val logger: Logger, val config
     }
 
     @EventHandler
-    fun pnPlayerSpawn(e: PlayerRespawnEvent) {
+    fun onPlayerSpawn(e: PlayerRespawnEvent) {
         val player = e.player
         if (Dualist.deathScreen.contains(player.uniqueId)) {
             player.sendTitle(Messages["lose"], Messages["loseSub"].mcformat(Dualist.deathScreen[player.uniqueId]!!), 5, 30, 5)
@@ -83,9 +89,24 @@ class DualistEventHandler(val plugin: JavaPlugin, val logger: Logger, val config
     }
 
     @EventHandler
+    fun onPlayerJoin(e: PlayerJoinEvent) {
+        val player = e.player
+        if (Dualist.deathScreen.contains(player.uniqueId)) {
+            player.sendTitle(Messages["lose"], Messages["loseSub"].mcformat(Dualist.deathScreen[player.uniqueId]!!), 5, 30, 5)
+        }
+    }
+
+
+    @EventHandler
     fun onPlayerQuit(e: PlayerQuitEvent) {
         val name = e.player.uniqueId
         if (Dualist.isInDuel(name)) {
+
+            if (Dualist.isWaiting(name)) {
+                Bukkit.getScheduler().cancelTask(Dualist.countdown[name]!!)
+                Bukkit.getScheduler().cancelTask(Dualist.countdown[Dualist.getAnotherPlayer(name)!!]!!)
+            }
+
             val bet = Dualist.getBet(name)
             Dualist.deathScreen[name] = bet
             if (Dualist.isInitiator(name)) {

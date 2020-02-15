@@ -1,5 +1,6 @@
 package verrok.dualist
 
+import com.sun.org.apache.xpath.internal.operations.Bool
 import net.milkbowl.vault.economy.Economy
 import org.bukkit.Bukkit
 import org.bukkit.OfflinePlayer
@@ -39,6 +40,11 @@ class Dualist : JavaPlugin() {
             return duelList.containsValue(name)
         }
 
+        fun isWaiting(uuid: UUID) : Boolean {
+            return countdown.contains(uuid)
+        }
+
+
         fun getBet(name: UUID) : Double {
             if (isInitiator(name)) {
                 if (duelBets[name] != null)
@@ -54,6 +60,21 @@ class Dualist : JavaPlugin() {
             return 0.0
         }
 
+        fun getAnotherPlayer(name: UUID) : UUID? {
+            var rt: UUID? = null
+            if (duelList.contains(name))
+                return duelList[name]
+            else {
+                duelList.keys.forEach search@{
+                    if (duelList[it] == name) {
+                        rt = it
+                        return@search
+                    }
+                }
+                return rt
+            }
+        }
+
         var econ: Economy? = null
     }
 
@@ -65,8 +86,8 @@ class Dualist : JavaPlugin() {
 
         if (!setupEconomy() ) {
             logger.log("Disabled due to no Vault dependency found!");
-            server.pluginManager.disablePlugin(this);
-            return;
+            server.pluginManager.disablePlugin(this)
+            return
         }
         logger.log(Messages["enable"])
 

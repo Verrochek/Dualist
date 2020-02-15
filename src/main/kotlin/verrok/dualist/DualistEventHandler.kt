@@ -45,15 +45,20 @@ class DualistEventHandler(val plugin: JavaPlugin, val logger: Logger, val config
         if (entity is Player && entity.killer is Player) {
             val name = entity.uniqueId
             if (Dualist.isInDuel(entity.uniqueId)) {
+                val bet = Dualist.getBet(name).toDouble()
                 if (Dualist.isInitiator(name)) {
                     val player = entity.killer
-                    player.sendTitle(Messages["playerDeath"].mcformat(entity.name),Messages["playerSub"].mcformat(Dualist.getBet(name)), 5, 30, 5)
+                    player.sendTitle(Messages["playerDeath"].mcformat(entity.name),Messages["playerSub"].mcformat(bet), 5, 30, 5)
+                    Dualist.econ!!.withdrawPlayer(entity, bet)
+                    Dualist.econ!!.depositPlayer(player, bet)
                     Dualist.duelList.remove(name)
                 } else if (Dualist.isParticipant(name)) {
                     Dualist.duelList.keys.forEach lit@{
                         if (Dualist.duelList[it] == name) {
                             val player = Bukkit.getPlayer(it)
-                            player.sendTitle(Messages["playerDeath"].mcformat(entity.name),Messages["playerSub"].mcformat(Dualist.getBet(name)), 5, 30, 5)
+                            player.sendTitle(Messages["playerDeath"].mcformat(entity.name),Messages["playerSub"].mcformat(bet), 5, 30, 5)
+                            Dualist.econ!!.withdrawPlayer(entity, bet)
+                            Dualist.econ!!.depositPlayer(player, bet)
                             Dualist.duelList.remove(it, name)
                             return@lit
                         }
@@ -69,15 +74,25 @@ class DualistEventHandler(val plugin: JavaPlugin, val logger: Logger, val config
     fun onPlayerQuit(e: PlayerQuitEvent) {
         val name = e.player.uniqueId
         if (Dualist.isInDuel(name)) {
+            val bet = Dualist.getBet(name)
             if (Dualist.isInitiator(name)) {
                 val player = Bukkit.getPlayer(Dualist.duelList[name]!!)
-                player.sendTitle(Messages["playerQuit"],Messages["playerSub"].mcformat(Dualist.getBet(name)), 5, 30, 5)
+                player.sendTitle(Messages["playerQuit"],Messages["playerSub"].mcformat(bet), 5, 30, 5)
+                logger.log(Dualist.getBet(name).toString())
+                val r1 = Dualist.econ!!.withdrawPlayer(e.player, bet)
+                val r2 = Dualist.econ!!.depositPlayer(player, bet )
+
                 Dualist.duelList.remove(name)
+
             } else if (Dualist.isParticipant(name)) {
                 Dualist.duelList.keys.forEach lit@{
                     if (Dualist.duelList[it] == name) {
                         val player = Bukkit.getPlayer(it)
-                        player.sendTitle(Messages["playerQuit"],Messages["playerSub"].mcformat(Dualist.getBet(name)), 5, 30, 5)
+                        player.sendTitle(Messages["playerQuit"],Messages["playerSub"].mcformat(bet), 5, 30, 5)
+
+                        val r1 = Dualist.econ!!.withdrawPlayer(e.player, bet)
+                        val r2 = Dualist.econ!!.depositPlayer(player, bet)
+
                         Dualist.duelList.remove(it, name)
                         return@lit
                     }

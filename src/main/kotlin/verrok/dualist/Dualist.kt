@@ -18,7 +18,7 @@ class Dualist : JavaPlugin() {
         var verbose = true
         val duelInvitations: MutableMap<UUID, UUID> = mutableMapOf()
         val duelList: MutableMap<UUID, UUID> = mutableMapOf()
-        val duelBets: MutableMap<UUID, Int> = mutableMapOf()
+        val duelBets: MutableMap<UUID, Double> = mutableMapOf()
         val countdown: MutableMap<UUID, Int> = mutableMapOf()
 
         fun isInDuel(name: UUID) : Boolean {
@@ -37,7 +37,7 @@ class Dualist : JavaPlugin() {
             return duelList.containsValue(name)
         }
 
-        fun getBet(name: UUID) : Int {
+        fun getBet(name: UUID) : Double {
             if (isInitiator(name)) {
                 if (duelBets[name] != null)
                     return duelBets[name]!!
@@ -49,7 +49,7 @@ class Dualist : JavaPlugin() {
                     }
                 }
             }
-            return 0
+            return 0.0
         }
 
         var econ: Economy? = null

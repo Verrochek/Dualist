@@ -20,6 +20,8 @@ class Dualist : JavaPlugin() {
         val duelList: MutableMap<UUID, UUID> = mutableMapOf()
         val duelBets: MutableMap<UUID, Double> = mutableMapOf()
         val countdown: MutableMap<UUID, Int> = mutableMapOf()
+        val deathScreen: MutableMap<UUID, Double> = mutableMapOf()
+
 
         fun isInDuel(name: UUID) : Boolean {
             return duelList.contains(name) || duelList.containsValue(name)

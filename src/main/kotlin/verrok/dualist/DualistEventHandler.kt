@@ -10,7 +10,9 @@ import org.bukkit.event.entity.PlayerDeathEvent
 import org.bukkit.event.player.PlayerInteractEntityEvent
 import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.event.player.PlayerQuitEvent
+import org.bukkit.event.player.PlayerRespawnEvent
 import org.bukkit.plugin.java.JavaPlugin
+import org.spigotmc.event.player.PlayerSpawnLocationEvent
 import verrok.dualist.Helpers.Messages
 import verrok.dualist.Helpers.log
 import verrok.dualist.Helpers.mcformat
@@ -45,7 +47,9 @@ class DualistEventHandler(val plugin: JavaPlugin, val logger: Logger, val config
         if (entity is Player && entity.killer is Player) {
             val name = entity.uniqueId
             if (Dualist.isInDuel(entity.uniqueId)) {
-                val bet = Dualist.getBet(name).toDouble()
+                val bet = Dualist.getBet(name)
+                Dualist.deathScreen[name] = bet
+
                 if (Dualist.isInitiator(name)) {
                     val player = entity.killer
                     player.sendTitle(Messages["playerDeath"].mcformat(entity.name),Messages["playerSub"].mcformat(bet), 5, 30, 5)
@@ -71,10 +75,19 @@ class DualistEventHandler(val plugin: JavaPlugin, val logger: Logger, val config
     }
 
     @EventHandler
+    fun pnPlayerSpawn(e: PlayerRespawnEvent) {
+        val player = e.player
+        if (Dualist.deathScreen.contains(player.uniqueId)) {
+            player.sendTitle(Messages["lose"], Messages["loseSub"].mcformat(Dualist.deathScreen[player.uniqueId]!!), 5, 30, 5)
+        }
+    }
+
+    @EventHandler
     fun onPlayerQuit(e: PlayerQuitEvent) {
         val name = e.player.uniqueId
         if (Dualist.isInDuel(name)) {
             val bet = Dualist.getBet(name)
+            Dualist.deathScreen[name] = bet
             if (Dualist.isInitiator(name)) {
                 val player = Bukkit.getPlayer(Dualist.duelList[name]!!)
                 player.sendTitle(Messages["playerQuit"],Messages["playerSub"].mcformat(bet), 5, 30, 5)

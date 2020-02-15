@@ -49,7 +49,7 @@ class Dualist : JavaPlugin() {
                     }
                 }
             }
-            return 0;
+            return 0
         }
 
         var econ: Economy? = null
@@ -59,18 +59,20 @@ class Dualist : JavaPlugin() {
         saveDefaultConfig()
         verbose = config.getBoolean("verbose")
 
-        Messages.initConfiguration("messages.yml");
+        Messages.initConfiguration("messages.yml")
         logger.log(Messages["enable"])
 
         setupEconomy()
 
-        Bukkit.getServer().pluginManager.registerEvents(DualistEventHandler(this, logger, config), this);
+        Bukkit.getServer().pluginManager.registerEvents(DualistEventHandler(this, logger, config), this)
         getCommand("duel")!!.executor = DualistCommandHandler(this, logger, config)
         getCommand("duel")!!.tabCompleter = DualistTabCompleter()
     }
 
     override fun onDisable() {
-
+        countdown.keys.forEach {
+            Bukkit.getScheduler().cancelTask(countdown[it]!!)
+        }
     }
 
     private fun setupEconomy(): Boolean {

@@ -59,6 +59,11 @@ class DualistCommandHandler(val plugin: JavaPlugin, val logger: Logger, val conf
                             return true
                         }
 
+                        if (!Dualist.econ!!.has(targetPlayer, bet.toDouble())) {
+                            sender.sendMessage(Messages["noEnemyMoney"].mcformat(targetPlayer.name))
+                            return true
+                        }
+
                         sender.sendMessage(Messages["waitForAnswer"], targetPlayer.name)
                         targetPlayer.sendMessage(Messages["newDuel"], sender.name, bet.toString())
                         Dualist.duelBets[targetName] = bet.toDouble()

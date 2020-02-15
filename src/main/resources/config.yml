@@ -2,3 +2,4 @@ verbose: true
 startDelay: 3
 deathKeepInventory: true
 deathKeepLevel: true
+lang: "ru"

@@ -80,12 +80,14 @@ class Dualist : JavaPlugin() {
 
     override fun onEnable() {
         saveDefaultConfig()
+        val lang = config.getString("lang")
         verbose = config.getBoolean("verbose")
 
-        Messages.initConfiguration("messages.yml")
+        saveResource("langs/$lang.yml", true)
+        Messages.initConfiguration("langs/$lang.yml")
 
         if (!setupEconomy() ) {
-            logger.log("Disabled due to no Vault dependency found!");
+            logger.log(Messages["noDependency"]);
             server.pluginManager.disablePlugin(this)
             return
         }

@@ -32,7 +32,7 @@ class DualistEventHandler(val plugin: JavaPlugin, val logger: Logger, val config
             val name = sender.uniqueId
             val targetName = receiver.uniqueId
             if (Dualist.isInDuel(targetName)) {
-                if (!Dualist.isInDuelWith(targetName, name)) {
+                if (!Dualist.isInDuelWith(targetName, name) || (Dualist.isWaiting(targetName) && Dualist.isWaiting(name))) {
                     e.isCancelled = true
                     return
                 }

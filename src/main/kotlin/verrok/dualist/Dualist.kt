@@ -97,7 +97,6 @@ class Dualist : JavaPlugin() {
 
         Bukkit.getServer().pluginManager.registerEvents(DualistEventHandler(this, logger, config), this)
         getCommand("duel")!!.executor = DualistCommandHandler(this, logger, config)
-        getCommand("duel")!!.tabCompleter = DualistTabCompleter()
     }
 
     override fun onDisable() {

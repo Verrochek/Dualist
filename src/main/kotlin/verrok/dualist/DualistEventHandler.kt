@@ -38,6 +38,14 @@ class DualistEventHandler(val plugin: JavaPlugin, val logger: Logger, val config
                 }
 
             }
+
+            if (Dualist.isInDuel(name)) {
+                if (!Dualist.isInDuelWith(targetName, name)) {
+                    e.isCancelled = true
+                    return
+                }
+            }
+
         }
     }
 

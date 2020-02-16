@@ -1,7 +1,7 @@
 # Dualist
 
 ### What is it
-Dualist is a plugin that helps provides duel between players
+A duel plugin for minecraft
 
 ### Usage
 

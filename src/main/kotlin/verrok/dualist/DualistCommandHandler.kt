@@ -21,13 +21,17 @@ class DualistCommandHandler(val plugin: JavaPlugin, val logger: Logger, val conf
 
             val name = sender.uniqueId
 
-            if (args!!.isEmpty()) {
+            if (args!!.isEmpty() && sender.hasPermission("dualist.help")) {
                 sender.sendMessage(Messages["help"])
             } else {
 
-                if (args[0] == "help") {
+                if (args[0] == "help" && sender.hasPermission("dualist.help")) {
                     sender.sendMessage(Messages["help"])
-                    return true;
+                    return true
+                }
+
+                if (!sender.hasPermission("dualist.use")) {
+                    return true
                 }
 
                 val targetPlayer = Bukkit.getPlayer(args[0])
@@ -44,7 +48,7 @@ class DualistCommandHandler(val plugin: JavaPlugin, val logger: Logger, val conf
 
                         if (args.size < 2) {
                             sender.sendMessage(Messages["noBet"])
-                            return true;
+                            return true
                         }
 
                         val bet = args[1].toIntOrNull()
@@ -79,7 +83,7 @@ class DualistCommandHandler(val plugin: JavaPlugin, val logger: Logger, val conf
                             Dualist.duelInvitations.remove(name)
                             var count = config.getInt("startDelay")
 
-                            Dualist.countdown[name] = Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, Runnable(){
+                            Dualist.countdown[name] = Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, {
                                 if (count > 0) {
                                     if (count == config.getInt("startDelay")) {
                                         target.sendTitle(Messages["willStart"], "", 5, 20, 5)
@@ -98,7 +102,7 @@ class DualistCommandHandler(val plugin: JavaPlugin, val logger: Logger, val conf
                                     logger.log("&eLeft tasks")
                                 }
                                 count--
-                            } , 0, 30)
+                            }, 0, 30)
                             Dualist.countdown[target.uniqueId] = Dualist.countdown[name]!!
                         } else {
                             sender.sendMessage(Messages["noDuels"])

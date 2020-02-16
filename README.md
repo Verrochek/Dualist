@@ -20,6 +20,8 @@ Dualist requires [Vault](https://www.spigotmc.org/resources/vault.34315/) to sup
 
 Now Dualist supports Minecraft versions **1.12**
 
+Available languages: **English, Русский**
+
 ### Configuration
 In `config.yml` you can find different settings for plugin
 - **verbose** - will debug information prints in console _(default: true)_
@@ -28,6 +30,10 @@ In `config.yml` you can find different settings for plugin
 - **deathKeepLevel** - should player's level be kept when he dies in a duel _(default: true)_
 - **lang** - plugin language _(default: "en")_
 
+### Languages
+If you want to edit existing texts you need to edit `en.yml` or `ru.yml` on the `langs` folder
+
+If you want to edit new translation you need to create `.yml` file, copypaste the content of existing language and translate it (e.g. English to French) and change in `config.yml` **lang** property
 ### In addition
 - If player leave during the countdown - he will lose
 - Player can't hit each other during the countdown

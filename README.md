@@ -44,8 +44,9 @@ If you want to add new translation you need to create `.yml` file, copypaste the
 ### Todo list
 - [x] ~~Language support~~
 - [x] ~~Permissions (don't know exactly why)~~
+- [ ] Timer (and displaying the remaining time in boss bar)
 - [ ] Creating arenas (optional WorldGuard integration)
 - [ ] Item bets
 - [ ] Make plugin more flexible via config
-- [ ] Builds for higher Minecraft versions
+- [ ] Support higher Minecraft versions
 - [ ] Test arrows/potions damage

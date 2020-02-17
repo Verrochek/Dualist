@@ -45,7 +45,7 @@ fun String.mcformat(prefix: Boolean) : String {
     } else {
         this
     }
-    return message.replace("&", "§")
+    return ChatColor.translateAlternateColorCodes('&', message)
 
 }
 

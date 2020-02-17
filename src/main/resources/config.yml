@@ -1,5 +1,5 @@
 verbose: true
-startDelay: 3
+startDelay: 10
 deathKeepInventory: true
 deathKeepLevel: true
-lang: "ru"
+lang: "en"

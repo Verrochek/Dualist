@@ -26,8 +26,9 @@ Available languages: **English, Русский**
 In `config.yml` you can find different settings for plugin
 - **verbose** - will debug information prints in console _(default: true)_
 - **startDelay** - time before duel starts _(default: 10)_
-- **deathKeepInventory** - should player's inventory be kept when he dies in a duel _(default: true)_
-- **deathKeepLevel** - should player's level be kept when he dies in a duel _(default: true)_
+- **deathKeepInventory** - determines whether player's inventory will be kept if he loses in a duel (default: true)
+ _(default: true)_
+- **deathKeepLevel** - determines whether player's level will be kept if he loses in a duel _(default: true)_
 - **lang** - plugin language _(default: "en")_
 
 ### Languages
@@ -35,14 +36,14 @@ If you want to edit existing texts you need to edit `en.yml` or `ru.yml` on the 
 
 If you want to add new translation you need to create `.yml` file, copypaste the content of existing language and translate it (e.g. English to French) and change in `config.yml` **lang** property
 ### In addition
-- If player leave during the countdown - he will lose
-- Player can't hit each other during the countdown
-- Another players can't hit the player in a duel
-- Maybe another players can hit with arrow/potions **i didn't test**
+- If player leaves during the countdown - he loses
+- Players can't hit each other during the countdown
+- Other players can't hit duelists
+- Maybe other players can hit with arrow/potions i didn't test
 
 ### Todo list
 - [x] ~~Language support~~
-- [ ] Permissions (don't know exactly why)
+- [x] ~~Permissions (don't know exactly why)~~
 - [ ] Creating arenas (optional WorldGuard integration)
 - [ ] Item bets
 - [ ] Make plugin more flexible via config

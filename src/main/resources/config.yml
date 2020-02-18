@@ -3,4 +3,4 @@ startDelay: 10
 deathKeepInventory: true
 deathKeepLevel: true
 lang: "en"
-maxDistance: 10
+maxCallDistance: 10

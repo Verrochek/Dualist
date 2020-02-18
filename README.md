@@ -29,6 +29,7 @@ In `config.yml` you can find different settings for plugin
 - **deathKeepInventory** - determines whether player's inventory will be kept if he loses in a duel (default: true)
  _(default: true)_
 - **deathKeepLevel** - determines whether player's level will be kept if he loses in a duel _(default: true)_
+- **maxCallDistance** - determines whether max distance between player to user command _(default: 10)_
 - **lang** - plugin language _(default: "en")_
 
 ### Languages

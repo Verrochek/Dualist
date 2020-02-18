@@ -30,7 +30,7 @@ In `config.yml` you can find different settings for plugin
  _(default: true)_
 - **deathKeepLevel** - determines whether player's level will be kept if he loses in a duel _(default: true)_
 - **maxCallDistance** - determines whether max distance between player to user command _(default: 10)_
-- **maxDistance** - determines whether max distance between player to end duel in a draw _(default: 10)_
+- **maxDistance** - determines whether max distance between player to end duel in a draw _(default: 35)_
 - **lang** - plugin language _(default: "en")_
 
 ### Languages

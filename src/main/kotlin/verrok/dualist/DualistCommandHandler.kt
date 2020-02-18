@@ -20,7 +20,7 @@ class DualistCommandHandler(val plugin: JavaPlugin, val logger: Logger, val conf
         if (sender is Player) {
 
             val name = sender.uniqueId
-
+            val maxDistance = config.getInt("maxDistance")
             if (args!!.isEmpty() && sender.hasPermission("dualist.help")) {
                 sender.sendMessage(Messages["help"])
             } else {
@@ -42,7 +42,7 @@ class DualistCommandHandler(val plugin: JavaPlugin, val logger: Logger, val conf
                         val targetName = targetPlayer.uniqueId
 
                         if (Dualist.isInDuel(targetName)) {
-                            sender.sendMessage(Messages["haveDuel"], targetName)
+                            sender.sendMessage(Messages["haveDuel"], targetPlayer.name)
                             return true
                         }
 
@@ -55,6 +55,11 @@ class DualistCommandHandler(val plugin: JavaPlugin, val logger: Logger, val conf
 
                         if (bet == null) {
                             sender.sendMessage(Messages["betType"])
+                            return true
+                        }
+
+                        if (sender.location.distance(targetPlayer.location).toInt() > maxDistance) {
+                            sender.sendMessage(Messages["distance"])
                             return true
                         }
 

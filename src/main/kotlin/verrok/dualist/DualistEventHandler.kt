@@ -7,10 +7,7 @@ import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.entity.EntityDamageByEntityEvent
 import org.bukkit.event.entity.PlayerDeathEvent
-import org.bukkit.event.player.PlayerInteractEntityEvent
-import org.bukkit.event.player.PlayerJoinEvent
-import org.bukkit.event.player.PlayerQuitEvent
-import org.bukkit.event.player.PlayerRespawnEvent
+import org.bukkit.event.player.*
 import org.bukkit.plugin.java.JavaPlugin
 import org.spigotmc.event.player.PlayerSpawnLocationEvent
 import verrok.dualist.Helpers.Messages
@@ -121,8 +118,8 @@ class DualistEventHandler(val plugin: JavaPlugin, val logger: Logger, val config
                 val player = Bukkit.getPlayer(Dualist.duelList[name]!!)
                 player.sendTitle(Messages["playerQuit"],Messages["playerSub"].mcformat(bet), 5, 30, 5)
                 logger.log(Dualist.getBet(name).toString())
-                val r1 = Dualist.econ!!.withdrawPlayer(e.player, bet)
-                val r2 = Dualist.econ!!.depositPlayer(player, bet )
+                Dualist.econ!!.withdrawPlayer(e.player, bet)
+                Dualist.econ!!.depositPlayer(player, bet )
 
                 Dualist.duelList.remove(name)
 
@@ -132,8 +129,8 @@ class DualistEventHandler(val plugin: JavaPlugin, val logger: Logger, val config
                         val player = Bukkit.getPlayer(it)
                         player.sendTitle(Messages["playerQuit"],Messages["playerSub"].mcformat(bet), 5, 30, 5)
 
-                        val r1 = Dualist.econ!!.withdrawPlayer(e.player, bet)
-                        val r2 = Dualist.econ!!.depositPlayer(player, bet)
+                        Dualist.econ!!.withdrawPlayer(e.player, bet)
+                        Dualist.econ!!.depositPlayer(player, bet)
 
                         Dualist.duelList.remove(it, name)
                         return@lit
@@ -143,19 +140,32 @@ class DualistEventHandler(val plugin: JavaPlugin, val logger: Logger, val config
         }
     }
 
-//    @EventHandler
-//    fun onTest(e: PlayerInteractEntityEvent) {
-//
-//
-//        e.player.sendMessage(String.format("You have %s", Dualist.econ!!.format(Dualist.econ!!.getBalance(e.player.player))))
-//        val r = Dualist.econ!!.depositPlayer(e.player , 200.0)
-//        Dualist.econ!!.
-//        if (r.transactionSuccess()) {
-//            e.player.sendMessage(String.format("You were given %s and now have %s", Dualist.econ!!.format(r.amount), Dualist.econ!!.format(r.balance)))
-//        } else {
-//            e.player.sendMessage(String.format("An error occured: %s", r.errorMessage))
-//        }
-//    }
+    @EventHandler
+    fun onMove(e: PlayerMoveEvent) {
+        val name = e.player.uniqueId
+        if (Dualist.isInDuel(name)) {
+            val another = Dualist.getAnotherPlayer(name)!!
+            val anotherPlayer = Bukkit.getPlayer(another)
+
+            val maxDistance = config.getInt("maxDistance")
+            if (maxDistance > 0 && e.player.location.distance(anotherPlayer.location).toInt() > maxDistance) {
+                if (Dualist.isWaiting(name)) {
+                    Bukkit.getScheduler().cancelTask(Dualist.countdown[name]!!)
+                    Bukkit.getScheduler().cancelTask(Dualist.countdown[another]!!)
+
+                }
+
+                if (Dualist.isInitiator(name)) {
+                    Dualist.duelList.remove(name)
+                } else if (Dualist.isParticipant(name)) {
+                    Dualist.duelList.remove(another)
+                }
+
+                e.player.sendTitle(Messages["draw"], Messages["drawSub"], 5, 30, 5)
+                anotherPlayer.sendTitle(Messages["draw"], Messages["drawSub"], 5, 30, 5)
+            }
+        }
+    }
 
 
 }

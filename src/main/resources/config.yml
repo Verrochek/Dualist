@@ -4,3 +4,4 @@ deathKeepInventory: true
 deathKeepLevel: true
 lang: "en"
 maxCallDistance: 10
+maxDistance: 35

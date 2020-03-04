@@ -52,3 +52,4 @@ If you want to add new translation you need to create `.yml` file, copypaste the
 - [ ] Make plugin more flexible via config
 - [ ] Support higher Minecraft versions
 - [ ] Test arrows/potions damage
+- [ ] Exporting duel history in .db file (SQLite)

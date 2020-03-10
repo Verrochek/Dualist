@@ -41,6 +41,11 @@ class DualistCommandHandler(val plugin: JavaPlugin, val logger: Logger, val conf
 
                         val targetName = targetPlayer.uniqueId
 
+                        if (name == targetName) {
+                            sender.sendMessage(Messages["yourself"], name)
+                            return true
+                        }
+
                         if (Dualist.isInDuel(targetName)) {
                             sender.sendMessage(Messages["haveDuel"], targetPlayer.name)
                             return true

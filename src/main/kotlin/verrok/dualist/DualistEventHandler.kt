@@ -170,16 +170,14 @@ class DualistEventHandler(val plugin: JavaPlugin, val logger: Logger, val config
         val name = e.player.uniqueId
         if (Dualist.isInDuel(name)) {
             val another = Dualist.getAnotherPlayer(name)!!
-
-
-
+            val player = Bukkit.getPlayer(name)
             val anotherPlayer = Bukkit.getPlayer(another)
 
-            if (Bukkit.getPlayer(name).isDead || anotherPlayer.isDead)
+            if (player.isDead || anotherPlayer.isDead)
                 return
 
             val maxDistance = config.getInt("maxDistance")
-            if (maxDistance > 0 && e.player.location.distance(anotherPlayer.location).toInt() > maxDistance) {
+            if ((player.world.uid != anotherPlayer.world.uid) || (maxDistance > 0 && e.player.location.distance(anotherPlayer.location).toInt() > maxDistance)) {
                 if (Dualist.isWaiting(name)) {
                     Bukkit.getScheduler().cancelTask(Dualist.countdown[name]!!)
                     Bukkit.getScheduler().cancelTask(Dualist.countdown[another]!!)

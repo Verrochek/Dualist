@@ -2,6 +2,7 @@ verbose: true
 startDelay: 10
 deathKeepInventory: true
 deathKeepLevel: true
+damageFromOtherPlayers: false
 lang: "en"
 maxCallDistance: 10
 maxDistance: 35

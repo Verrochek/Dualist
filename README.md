@@ -29,6 +29,7 @@ In `config.yml` you can find different settings for plugin
 - **deathKeepInventory** - determines whether player's inventory will be kept if he loses in a duel (default: true)
  _(default: true)_
 - **deathKeepLevel** - determines whether player's level will be kept if he loses in a duel _(default: true)_
+- **damageFromOtherPlayer** - can dueslists damage another players _(default: false)_
 - **maxCallDistance** - determines whether max distance between player to user command _(default: 10)_
 - **maxDistance** - determines whether max distance between player to end duel in a draw _(default: 35)_
 - **lang** - plugin language _(default: "en")_
@@ -51,5 +52,5 @@ If you want to add new translation you need to create `.yml` file, copypaste the
 - [ ] Item bets
 - [ ] Make plugin more flexible via config
 - [ ] Support higher Minecraft versions
-- [ ] Test arrows/potions damage
+- [x] ~~Test arrows/potions damage~~
 - [ ] Exporting duel history in .db file (SQLite)

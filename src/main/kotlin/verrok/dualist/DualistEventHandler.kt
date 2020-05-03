@@ -2,11 +2,13 @@ package verrok.dualist
 
 import org.bukkit.Bukkit
 import org.bukkit.configuration.file.FileConfiguration
+import org.bukkit.entity.Arrow
 import org.bukkit.entity.Player
+import org.bukkit.entity.ThrownPotion
+import org.bukkit.event.Cancellable
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
-import org.bukkit.event.entity.EntityDamageByEntityEvent
-import org.bukkit.event.entity.PlayerDeathEvent
+import org.bukkit.event.entity.*
 import org.bukkit.event.player.*
 import org.bukkit.plugin.java.JavaPlugin
 import org.spigotmc.event.player.PlayerSpawnLocationEvent
@@ -18,32 +20,54 @@ import java.util.logging.Logger
 
 class DualistEventHandler(val plugin: JavaPlugin, val logger: Logger, val config: FileConfiguration) : Listener {
 
+    fun cancellEvent(sender: Player, receiver: Player, e: Cancellable) {
+        val name = sender.uniqueId
+        val targetName = receiver.uniqueId
+        if (Dualist.isInDuel(targetName)) {
+            if (!Dualist.isInDuelWith(targetName, name) || (Dualist.isWaiting(targetName) && Dualist.isWaiting(name))) {
+                e.isCancelled = true
+                return
+            }
+
+        }
+
+        if (Dualist.isInDuel(name)) {
+            if (!Dualist.isInDuelWith(targetName, name)) {
+                e.isCancelled = true
+                return
+            }
+        }
+    }
+
 
     @EventHandler
     fun onDamagePlayer(e: EntityDamageByEntityEvent) {
 
-        val sender = e.damager
-        val receiver = e.entity
+        if (!config.getBoolean("damageFromOtherPlayers")) {
+            val sender = e.damager
+            val receiver = e.entity
 
-        if (sender is Player && receiver is Player) {
-            val name = sender.uniqueId
-            val targetName = receiver.uniqueId
-            if (Dualist.isInDuel(targetName)) {
-                if (!Dualist.isInDuelWith(targetName, name) || (Dualist.isWaiting(targetName) && Dualist.isWaiting(name))) {
-                    e.isCancelled = true
-                    return
+            if (receiver is Player) {
+                if (sender is Player) {
+                    cancellEvent(sender, receiver, e)
                 }
 
-            }
+                if (sender is Arrow) {
+                    val shooter = sender.shooter
+                    if (shooter is Player) {
+                        cancellEvent(shooter, receiver, e)
+                    }
+                }
 
-            if (Dualist.isInDuel(name)) {
-                if (!Dualist.isInDuelWith(targetName, name)) {
-                    e.isCancelled = true
-                    return
+                if (sender is ThrownPotion) {
+                    val shooter = sender.shooter
+                    if (shooter is Player) {
+                        cancellEvent(shooter, receiver, e)
+                    }
                 }
             }
-
         }
+
     }
 
     @EventHandler
@@ -67,6 +91,7 @@ class DualistEventHandler(val plugin: JavaPlugin, val logger: Logger, val config
                     Dualist.econ!!.withdrawPlayer(entity, bet)
                     Dualist.econ!!.depositPlayer(player, bet)
                     Dualist.duelList.remove(name)
+
                 } else if (Dualist.isParticipant(name)) {
                     Dualist.duelList.keys.forEach lit@{
                         if (Dualist.duelList[it] == name) {

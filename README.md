@@ -46,6 +46,8 @@ If you want to add new translation you need to create `.yml` file, copypaste the
 - Other players can't hit duelists (if **damageFromOtherPlayer** is false)
 
 ### Todo list
+- [ ] Option that disallows using commands in duel
+- [ ] Option that disallows teleporting from plugins
 - [ ] Timer (and displaying the remaining time in boss bar)
 - [ ] Creating arenas (optional WorldGuard integration)
 - [ ] Item bets
@@ -56,3 +58,10 @@ If you want to add new translation you need to create `.yml` file, copypaste the
 - [x] ~~Make plugin more flexible via config~~
 - [x] ~~Language support~~
 - [x] ~~Permissions (don't know exactly why)~~
+
+
+### Support
+![Jetbrains](https://cdn.jsdelivr.net/npm/@jetbrains/logos@1.1.8/jetbrains/jetbrains.svg) 
+
+Supported with license by [Jetbrains opensource](jetbrains.com/opensource) 
+

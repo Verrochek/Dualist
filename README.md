@@ -33,6 +33,8 @@ In `config.yml` you can find different settings for plugin
 - **maxCallDistance** - determines whether max distance between player to user command _(default: 10)_
 - **maxDistance** - determines whether max distance between player to end duel in a draw _(default: 35)_
 - **lang** - plugin language _(default: "en")_
+- **preventUsingCommands** - prevents using **any** command by player _(default: true)_
+- **preventTeleport** - prevents teleporting from plugin/server and some other reasons _(default: true)_
 
 ### Languages
 If you want to edit existing texts you need to edit `en.yml` or `ru.yml` on the `langs` folder
@@ -46,13 +48,13 @@ If you want to add new translation you need to create `.yml` file, copypaste the
 - Other players can't hit duelists (if **damageFromOtherPlayer** is false)
 
 ### Todo list
-- [ ] Option that disallows using commands in duel
-- [ ] Option that disallows teleporting from plugins
+- [x] ~~Option that disallows using commands in duel~~
+- [x] ~~Option that disallows teleporting from plugins~~
 - [ ] Timer (and displaying the remaining time in boss bar)
 - [ ] Creating arenas (optional WorldGuard integration)
 - [ ] Item bets
 - [ ] Support higher Minecraft versions
-- [ ] Add switching to survival gamemode if player in creative
+- [x] ~~Add switching to survival gamemode if player in creative~~
 - [ ] Exporting duel history in .db file (SQLite)
 - [x] ~~Test arrows/potions damage~~
 - [x] ~~Make plugin more flexible via config~~

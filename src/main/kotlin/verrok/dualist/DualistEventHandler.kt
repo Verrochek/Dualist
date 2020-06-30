@@ -208,7 +208,7 @@ class DualistEventHandler(val plugin: JavaPlugin, val logger: Logger, val config
 
     @EventHandler
     fun onTeleport(e: PlayerTeleportEvent) {
-        if (config.getBoolean("preventTeleportFromPlugins")) {
+        if (config.getBoolean("preventTeleport")) {
             if (Dualist.isInDuel(e.player.uniqueId) && restrictedCauses.contains(e.cause)) {
                 e.player.sendMessage(Messages["preventTeleport"])
                 e.isCancelled = true

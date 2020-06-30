@@ -38,19 +38,30 @@ In `config.yml` you can find different settings for plugin
 If you want to edit existing texts you need to edit `en.yml` or `ru.yml` on the `langs` folder
 
 If you want to add new translation you need to create `.yml` file, copypaste the content of existing language and translate it (e.g. English to French) and change in `config.yml` **lang** property
+
 ### In addition
 - If player leaves during the countdown - he loses
+- If players will teleport to another world - duel ends in a draw
 - Players can't hit each other during the countdown
-- Other players can't hit duelists
-- Maybe other players can hit with arrow/potions i didn't test
+- Other players can't hit duelists (if **damageFromOtherPlayer** is false)
 
 ### Todo list
-- [x] ~~Language support~~
-- [x] ~~Permissions (don't know exactly why)~~
+- [ ] Option that disallows using commands in duel
+- [ ] Option that disallows teleporting from plugins
 - [ ] Timer (and displaying the remaining time in boss bar)
 - [ ] Creating arenas (optional WorldGuard integration)
 - [ ] Item bets
-- [ ] Make plugin more flexible via config
 - [ ] Support higher Minecraft versions
-- [x] ~~Test arrows/potions damage~~
+- [ ] Add switching to survival gamemode if player in creative
 - [ ] Exporting duel history in .db file (SQLite)
+- [x] ~~Test arrows/potions damage~~
+- [x] ~~Make plugin more flexible via config~~
+- [x] ~~Language support~~
+- [x] ~~Permissions (don't know exactly why)~~
+
+
+### Support
+![Jetbrains](https://cdn.jsdelivr.net/npm/@jetbrains/logos@1.1.8/jetbrains/jetbrains.svg) 
+
+Supported with license by [Jetbrains opensource](jetbrains.com/opensource) 
+

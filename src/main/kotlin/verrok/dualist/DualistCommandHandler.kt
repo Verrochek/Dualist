@@ -63,7 +63,9 @@ class DualistCommandHandler(val plugin: JavaPlugin, val logger: Logger, val conf
                             return true
                         }
 
-                        if (maxDistance > 0 && sender.location.distance(targetPlayer.location).toInt() > maxDistance) {
+
+
+                        if ((sender.world.uid != targetPlayer.world.uid) || (maxDistance > 0 && sender.location.distance(targetPlayer.location).toInt() > maxDistance)) {
                             sender.sendMessage(Messages["distance"])
                             return true
                         }

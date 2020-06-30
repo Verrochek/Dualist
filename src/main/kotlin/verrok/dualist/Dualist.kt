@@ -1,14 +1,20 @@
 package verrok.dualist
 
+import com.google.gson.Gson
 import net.milkbowl.vault.economy.Economy
 import org.bukkit.Bukkit
+import org.bukkit.command.Command
+import org.bukkit.command.CommandExecutor
+import org.bukkit.command.CommandSender
 import org.bukkit.plugin.java.JavaPlugin
 import verrok.dualist.Helpers.Messages
 import verrok.dualist.Helpers.log
+import java.io.StringReader
+import java.net.URL
 import java.util.*
 
 
-class Dualist : JavaPlugin() {
+class Dualist : JavaPlugin(), CommandExecutor {
 
     companion object {
         var verbose = true
@@ -87,11 +93,10 @@ class Dualist : JavaPlugin() {
             return
         }
         logger.log(Messages["enable"])
-        val version = khttp.get("https://api.github.com/repos/Verrok/Dualist/releases/latest").jsonObject.getString("tag_name")
+        val version = Gson().fromJson<Tag>(URL("https://api.github.com/repos/Verrok/Dualist/releases/latest").readText(), Tag::class.java).version
         if (version != description.version) {
             logger.log("You have an outdated version of Dualist! Please check https://github.com/Verrok/Dualist")
         }
-
         Bukkit.getServer().pluginManager.registerEvents(DualistEventHandler(this, logger, config), this)
         getCommand("duel")!!.executor = DualistCommandHandler(this, logger, config)
     }
@@ -110,6 +115,7 @@ class Dualist : JavaPlugin() {
         econ = rsp.provider
         return econ != null
     }
+
 
 
 

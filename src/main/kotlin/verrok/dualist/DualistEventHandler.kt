@@ -10,6 +10,7 @@ import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.entity.*
 import org.bukkit.event.player.*
+import org.bukkit.event.server.ServerCommandEvent
 import org.bukkit.plugin.java.JavaPlugin
 import org.spigotmc.event.player.PlayerSpawnLocationEvent
 import verrok.dualist.Helpers.Messages
@@ -19,6 +20,15 @@ import java.util.logging.Logger
 
 
 class DualistEventHandler(val plugin: JavaPlugin, val logger: Logger, val config: FileConfiguration) : Listener {
+
+    private val restrictedCauses = mutableListOf<PlayerTeleportEvent.TeleportCause>()
+
+    init {
+        restrictedCauses.add(PlayerTeleportEvent.TeleportCause.COMMAND)
+        restrictedCauses.add(PlayerTeleportEvent.TeleportCause.PLUGIN)
+        restrictedCauses.add(PlayerTeleportEvent.TeleportCause.SPECTATE)
+        restrictedCauses.add(PlayerTeleportEvent.TeleportCause.UNKNOWN)
+    }
 
     fun cancellEvent(sender: Player, receiver: Player, e: Cancellable) {
         val name = sender.uniqueId
@@ -196,5 +206,24 @@ class DualistEventHandler(val plugin: JavaPlugin, val logger: Logger, val config
         }
     }
 
+    @EventHandler
+    fun onTeleport(e: PlayerTeleportEvent) {
+        if (config.getBoolean("preventTeleportFromPlugins")) {
+            if (Dualist.isInDuel(e.player.uniqueId) && restrictedCauses.contains(e.cause)) {
+                e.player.sendMessage(Messages["preventTeleport"])
+                e.isCancelled = true
+            }
+        }
+    }
+
+    @EventHandler
+    fun onCommand(e: PlayerCommandPreprocessEvent) {
+        if (config.getBoolean("preventUsingCommands")) {
+            if (Dualist.isInDuel(e.player.uniqueId)) {
+                e.player.sendMessage(Messages["preventCommands"])
+                e.isCancelled = true;
+            }
+        }
+    }
 
 }

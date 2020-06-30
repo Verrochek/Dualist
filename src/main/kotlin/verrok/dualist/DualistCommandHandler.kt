@@ -1,6 +1,7 @@
 package verrok.dualist
 
 import org.bukkit.Bukkit
+import org.bukkit.GameMode
 import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
@@ -107,6 +108,11 @@ class DualistCommandHandler(val plugin: JavaPlugin, val logger: Logger, val conf
                                 } else {
                                     target.sendTitle(Messages["started"], "", 5, 20, 5)
                                     sender.sendTitle(Messages["started"], "", 5, 20, 5)
+                                    target.gameMode = GameMode.SURVIVAL
+                                    target.isInvulnerable = false
+                                    sender.gameMode = GameMode.SURVIVAL
+                                    sender.isInvulnerable = false
+
                                     Bukkit.getScheduler().cancelTask(Dualist.countdown[target.uniqueId]!!)
                                     Bukkit.getScheduler().cancelTask(Dualist.countdown[name]!!)
                                     Dualist.countdown.remove(target.uniqueId)

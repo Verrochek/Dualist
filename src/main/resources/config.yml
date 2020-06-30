@@ -6,3 +6,5 @@ damageFromOtherPlayers: false
 lang: "en"
 maxCallDistance: 10
 maxDistance: 35
+preventUsingCommands: true
+preventTeleportFromPlugins: true

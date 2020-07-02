@@ -1,10 +1,10 @@
 verbose: true
-startDelay: 10
+startDelay: 6
 deathKeepInventory: true
 deathKeepLevel: true
 damageFromOtherPlayers: false
-lang: "en"
+lang: "ru"
 maxCallDistance: 10
-maxDistance: 35
+maxDistance: 75
 preventUsingCommands: true
 preventTeleport: true

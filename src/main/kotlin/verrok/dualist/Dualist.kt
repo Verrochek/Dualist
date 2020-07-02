@@ -10,6 +10,7 @@ import org.bukkit.plugin.java.JavaPlugin
 import verrok.dualist.Helpers.Messages
 import verrok.dualist.Helpers.log
 import java.io.StringReader
+import java.net.HttpURLConnection
 import java.net.URL
 import java.util.*
 
@@ -93,10 +94,17 @@ class Dualist : JavaPlugin(), CommandExecutor {
             return
         }
         logger.log(Messages["enable"])
-        val version = Gson().fromJson<Tag>(URL("https://api.github.com/repos/Verrok/Dualist/releases/latest").readText(), Tag::class.java).version
-        if (version != description.version) {
-            logger.log("You have an outdated version of Dualist! Please check https://github.com/Verrok/Dualist")
-        }
+
+//        val url = URL("https://api.github.com/repos/Verrok/Dualist/releases/latest");
+//        with(url.openConnection() as HttpURLConnection) {
+//            requestMethod = "GET"  // optional default is GET
+//
+//        }
+//
+//        val version = Gson().fromJson<Tag>(.readText(), Tag::class.java).version
+//        if (version != description.version) {
+//            logger.log("You have an outdated version of Dualist! Please check https://github.com/Verrok/Dualist")
+//        }
         Bukkit.getServer().pluginManager.registerEvents(DualistEventHandler(this, logger, config), this)
         getCommand("duel")!!.executor = DualistCommandHandler(this, logger, config)
     }

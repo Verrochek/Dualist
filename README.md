@@ -1,5 +1,7 @@
 # Dualist
 
+# Dualist 2.0 IS UNDER DEVELOPMENT (NEW FEATURES, CODE REFACTOR)
+
 ### What is it
 A duel plugin for minecraft
 
